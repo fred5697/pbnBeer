@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.memberCenter.BleDeviceSearch">
+
+    <data>
+        <import type="androidx.databinding.ObservableField"/>
+        <variable
+            name="activityMsg"
+            type="ObservableField&lt;String&gt;" />
+<!--        <variable-->
+<!--            name="activity"-->
+<!--            type="com.cymmetrik.ezprintcolor.ui.memberCenter.BleDeviceSearch" />-->
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:visibility="invisible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{activityMsg}" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_bluetooth_info"
+            android:layout_width="match_parent"
+            android:layout_height="646dp"
+            android:layout_margin="10dp"
+            android:background="#D8DCA2" />
+
+        <EditText
+            android:id="@+id/editTextTextPersonName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Name" />
+
+    </LinearLayout>
+</layout>

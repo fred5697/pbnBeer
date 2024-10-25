@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_bluetooth_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        tools:text="NULL" />
+
+    <TextView
+        android:id="@+id/tv_bluetooth_mac"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_bluetooth_name"
+        android:layout_alignStart="@+id/tv_bluetooth_name"
+        android:layout_marginTop="10dp"
+        tools:text="00:B1:D9:8C:59:F3" />
+
+    <TextView
+        android:id="@+id/tv_bluetooth_pre_parse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_bluetooth_mac"
+        android:layout_alignStart="@+id/tv_bluetooth_mac"
+        android:layout_marginTop="10dp"
+        tools:text="preParse:1a3sd15a6sd1a2sd1a3s5da1s" />
+
+    <TextView
+        android:id="@+id/tv_bluetooth_post_parse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_bluetooth_pre_parse"
+        android:layout_alignStart="@+id/tv_bluetooth_mac"
+        android:layout_marginBottom="10dp"
+        tools:text="postParse:\n1a3sd15a6sd1a2sd1a3s5da1s" />
+
+    <TextView
+        android:id="@+id/tv_bluetooth_rssi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_bluetooth_name"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
+        tools:text="Rssi:-65" />
+</RelativeLayout>

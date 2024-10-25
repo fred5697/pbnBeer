@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.memberCenter.MemberCenterFragment">
+
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.pbn.beers.ui.memberCenter.MemberCenterFragment" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <Button
+            android:id="@+id/btn_pair_device"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="80dp"
+            android:layout_marginEnd="10dp"
+            android:gravity="center"
+            android:onClick="@{() -> fragment.toBleSearchActivity()}"
+            android:text="@string/pair_device" />
+
+        <Button
+            android:id="@+id/btn_device_adjust"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:gravity="center"
+            android:onClick="@{() -> fragment.toBleDeviceAdjust()}"
+            android:text="@string/adjust_device" />
+
+    </LinearLayout>
+</layout>

@@ -1,0 +1,34 @@
+<resources>
+    <!-- app, nav -->
+    <string name="app_name">pbnTool</string>
+    <string name="title_home">濃度計</string>
+    <string name="title_personal_color">印刷標準化</string>
+    <string name="title_member_center">設定</string>
+
+    <!-- btn 通用 -->
+    <string name="btn_i_know">知道了</string>
+
+    <!-- msgBox 通用 -->
+    <string name="msg_box_title">提示訊息</string>
+
+    <!-- 搜尋光譜儀流程 -->
+    <string name="pair_device">配對光譜儀</string>
+    <string name="search_device">搜尋設備</string>
+    <string name="connect_success">連接成功</string>
+    <string name="connect">連接中</string>
+    <string name="adjust_device">校準光譜儀</string>
+
+    <!-- 校準光譜儀流程 -->
+    <string name="adjust_setting">光譜儀正在初始設定，請稍後…</string>
+    <string name="white_adjust">白校準</string>
+    <string name="white_adjust_tip">請將光譜儀蓋子蓋上，點擊校準</string>
+    <string name="adjust_btn_name">校準</string>
+    <string name="black_adjust">黑校準</string>
+    <string name="black_adjust_tip">請取下光譜儀保護蓋並朝下量測，與地面保持約一公尺的距離，點擊校準</string>
+    <string name="adjusting_wait">校準中請稍後…</string>
+    <string name="adjust_fail">校準失敗，請校準後在使用!</string>
+
+    <!-- 測量 -->
+    <string name="measure_fail">測量失敗，請在測量一次</string>
+
+</resources>
