@@ -17,6 +17,7 @@
     <string name="connect_success">連接成功</string>
     <string name="connect">連接中</string>
     <string name="adjust_device">校準光譜儀</string>
+    <string name="adjust_device_title">校準光譜儀</string>
 
     <!-- 校準光譜儀流程 -->
     <string name="adjust_setting">光譜儀正在初始設定，請稍後…</string>

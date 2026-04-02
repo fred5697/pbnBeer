@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -36,6 +37,15 @@ public abstract class BluetoothBaseActivity extends AppCompatActivity
 		mPlaybackStatus = new PlaybackStatus();
 		registerReceiver();
 	}
+
+	@Override
+	protected void onDestroy() {
+		if (mPlaybackStatus != null) {
+			unregisterReceiver(mPlaybackStatus);
+			mPlaybackStatus = null;
+		}
+		super.onDestroy();
+	}
 	
 	private void registerReceiver() {
 		
@@ -66,8 +76,11 @@ public abstract class BluetoothBaseActivity extends AppCompatActivity
 		filter.addAction(Constant.SET_SAVE_MODE);
 		filter.addAction(Constant.SET_BLUETOOTH_NAME);
 		filter.addAction(Constant.ON_FAIL);
-		registerReceiver(mPlaybackStatus, filter);
-		
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+			registerReceiver(mPlaybackStatus, filter, Context.RECEIVER_NOT_EXPORTED);
+		} else {
+			registerReceiver(mPlaybackStatus, filter);
+		}
 	}
 	
 	private class PlaybackStatus extends BroadcastReceiver

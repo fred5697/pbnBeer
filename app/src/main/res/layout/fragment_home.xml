@@ -10,22 +10,21 @@
             type="com.pbn.beers.ui.home.HomeFragment" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:fitsSystemWindows="true">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_show_lab_info"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="2"
             android:background="@color/white"
-            app:cardCornerRadius="5dp"
-            app:layout_constraintBottom_toTopOf="@+id/card_color_measure"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_weight="2">
+            app:cardCornerRadius="5dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -393,81 +392,78 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_color_measure"
-            android:layout_width="185dp"
-            android:layout_height="319dp"
-            android:layout_marginHorizontal="10dp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:orientation="horizontal"
             android:layout_marginTop="10dp"
-            android:background="@color/white"
-            app:cardBackgroundColor="@{fragment.m_rgbColorInt}"
-            app:cardCornerRadius="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.044"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_show_lab_info"
-            app:layout_constraintVertical_weight="3">
+            android:layout_marginHorizontal="10dp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:text="@{fragment.mColorHex}"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_color_measure"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginEnd="5dp"
+                android:background="@color/white"
+                app:cardBackgroundColor="@{fragment.m_rgbColorInt}"
+                app:cardCornerRadius="5dp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="40dp"
-                android:gravity="center"
-                android:text="@{fragment.mColorHex2}"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:text="@{fragment.mColorHex}"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
 
-        </androidx.cardview.widget.CardView>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="40dp"
+                    android:gravity="center"
+                    android:text="@{fragment.mColorHex2}"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_color_measure2"
-            android:layout_width="185dp"
-            android:layout_height="319dp"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/white"
-            app:cardBackgroundColor="@{fragment.m_rgbColorInt2}"
-            app:cardCornerRadius="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.96"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_show_lab_info"
-            app:layout_constraintVertical_weight="3">
+            </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:text="@{fragment.mColorHex}"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_color_measure2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="5dp"
+                android:background="@color/white"
+                app:cardBackgroundColor="@{fragment.m_rgbColorInt2}"
+                app:cardCornerRadius="5dp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="40dp"
-                android:gravity="center"
-                android:text="@{fragment.mColorHex2}"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:text="@{fragment.mColorHex}"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
 
-        </androidx.cardview.widget.CardView>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="40dp"
+                    android:gravity="center"
+                    android:text="@{fragment.mColorHex2}"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+    </LinearLayout>
 </layout>

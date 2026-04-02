@@ -3,6 +3,7 @@ package com.pbn.beers.ble;
 import android.content.Context;
 
 import com.clj.fastble.data.BleDevice;
+import com.pbn.beers.bean.AdjustBean;
 import com.pbn.beers.bean.DisplayParam;
 import com.pbn.beers.bean.StandardSampleDataBean;
 import com.pbn.beers.bean.ToleranceBean;
@@ -13,6 +14,40 @@ import com.pbn.beers.bean.ToleranceBean;
 public abstract class IBluetoothManager
 {
 	private static IBluetoothManager mBleManager;
+
+	public interface AdjustCallback {
+		void onWhiteAdjust(AdjustBean bean);
+		void onBlackAdjust(AdjustBean bean);
+	}
+
+	/** Fired once when the BLE GATT notification listener is ready. */
+	public interface NotifyCallback {
+		void onNotifySuccess();
+		void onNotifyFailure(String reason);
+	}
+
+	private AdjustCallback adjustCallback;
+	private NotifyCallback notifyCallback;
+
+	public void setNotifyCallback(NotifyCallback cb) {
+		this.notifyCallback = cb;
+	}
+
+	public void clearNotifyCallback() {
+		this.notifyCallback = null;
+	}
+
+	protected void triggerNotifySuccess() {
+		NotifyCallback cb = notifyCallback;
+		notifyCallback = null; // one-shot
+		if (cb != null) cb.onNotifySuccess();
+	}
+
+	protected void triggerNotifyFailure(String reason) {
+		NotifyCallback cb = notifyCallback;
+		notifyCallback = null;
+		if (cb != null) cb.onNotifyFailure(reason);
+	}
 	
 	/**
 	 * 光譜儀連線成功，保持通訊狀態
@@ -25,12 +60,38 @@ public abstract class IBluetoothManager
 	public StandardSampleDataBean.StandardDataBean standardDataBean = null;
 	public DisplayParam displayParam = null;
 	public ToleranceBean toleranceBean = null;
+
+	public void setBleDevice(BleDevice bleDevice) {
+		this.connectDevice = bleDevice;
+	}
 	
 	public static IBluetoothManager getInstance() {
 		if (mBleManager == null) {
 			mBleManager = new BluetoothManager();
 		}
 		return mBleManager;
+	}
+
+	public void setAdjustCallback(AdjustCallback adjustCallback) {
+		this.adjustCallback = adjustCallback;
+	}
+
+	public void clearAdjustCallback(AdjustCallback adjustCallback) {
+		if(this.adjustCallback == adjustCallback) {
+			this.adjustCallback = null;
+		}
+	}
+
+	protected void notifyWhiteAdjust(AdjustBean bean) {
+		if(adjustCallback != null) {
+			adjustCallback.onWhiteAdjust(bean);
+		}
+	}
+
+	protected void notifyBlackAdjust(AdjustBean bean) {
+		if(adjustCallback != null) {
+			adjustCallback.onBlackAdjust(bean);
+		}
 	}
 	
 	public abstract void init(Context context);

@@ -2,7 +2,7 @@ package com.pbn.beers.utils;
 
 public class Constant
 {
-	
+	public static String DEVICE_NAME = "";
 	// 测量模式
 	public static final int TYPE_MEASURE_MODE_SCI = 0x00;
 	public static final int TYPE_MEASURE_MODE_SCE = 0x01;

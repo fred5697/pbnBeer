@@ -10,6 +10,15 @@ public class BluetoothBean
    private String preParse;
    private String postParse;
    private String rssi;
+   private com.clj.fastble.data.BleDevice bleDevice;
+
+   public com.clj.fastble.data.BleDevice getBleDevice() {
+      return bleDevice;
+   }
+
+   public void setBleDevice(com.clj.fastble.data.BleDevice bleDevice) {
+      this.bleDevice = bleDevice;
+   }
    
    public String getName() {
       return name;

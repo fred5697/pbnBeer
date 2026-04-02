@@ -34,7 +34,7 @@ import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-class BluetoothManager extends IBluetoothManager
+public class BluetoothManager extends IBluetoothManager
 {
 	private final String TAG = BluetoothManager.class.getName();
 	private Context mContext = null;
@@ -79,6 +79,7 @@ class BluetoothManager extends IBluetoothManager
 					@SuppressLint("DefaultLocale")
 					@Override
 					public void onCharacteristicChanged(byte[] data) {
+						Log.d(TAG, "FLOW: notify raw=" + HexUtil.formatHexString(data));
 						if(HexUtil.formatHexString(data).startsWith("bb1a")) {
 							initStatus();
 							if(data[ 2 ] == 0x00) {
@@ -91,6 +92,7 @@ class BluetoothManager extends IBluetoothManager
 								Log.i(TAG, "setDisplayParams===>Parsing error");
 							}
 							Intent intent = new Intent(Constant.SET_DEVICE_DISPLAY_PARAM);
+							intent.setPackage(mContext.getPackageName());
 							intent.putExtra("state", data[ 2 ]);
 							mContext.sendBroadcast(intent);
 						}
@@ -106,6 +108,7 @@ class BluetoothManager extends IBluetoothManager
 								Log.i(TAG, "setTolerance===>Parsing error");
 							}
 							Intent intent = new Intent(Constant.SET_TOLERANCE);
+							intent.setPackage(mContext.getPackageName());
 							intent.putExtra("state", data[ 2 ]);
 							mContext.sendBroadcast(intent);
 						}
@@ -121,6 +124,7 @@ class BluetoothManager extends IBluetoothManager
 								Log.i(TAG, "syncTime===>err");
 							}
 							Intent intent = new Intent(Constant.SET_TOLERANCE);
+							intent.setPackage(mContext.getPackageName());
 							intent.putExtra("state", data[ 2 ]);
 							mContext.sendBroadcast(intent);
 						}
@@ -128,7 +132,10 @@ class BluetoothManager extends IBluetoothManager
 							initStatus();
 							AdjustBean adjustBean = DataParse.parseAdjust(data);
 							Log.i(TAG, "blackAdjust===>" + adjustBean.toString());
+							Log.d(TAG, "FLOW: broadcasting BLACK_ADJUST state=" + adjustBean.getAdjustState());
+							notifyBlackAdjust(adjustBean);
 							Intent intent = new Intent(Constant.BLACK_ADJUST);
+							intent.setPackage(mContext.getPackageName());
 							intent.putExtra("data", adjustBean);
 							mContext.sendBroadcast(intent);
 						}
@@ -136,7 +143,10 @@ class BluetoothManager extends IBluetoothManager
 							initStatus();
 							AdjustBean adjustBean = DataParse.parseAdjust(data);
 							Log.i(TAG, "whiteAdjust===>" + adjustBean.toString());
+							Log.d(TAG, "FLOW: broadcasting WHITE_ADJUST state=" + adjustBean.getAdjustState());
+							notifyWhiteAdjust(adjustBean);
 							Intent intent = new Intent(Constant.WHITE_ADJUST);
+							intent.setPackage(mContext.getPackageName());
 							intent.putExtra("data", adjustBean);
 							mContext.sendBroadcast(intent);
 						}
@@ -144,7 +154,9 @@ class BluetoothManager extends IBluetoothManager
 							initStatus();
 							MeasureBean bean = DataParse.parseMeasure(data);
 							Log.i(TAG, "measure===>" + bean.toString());
+							Log.d(TAG, "FLOW: broadcasting MEASURE success=" + bean.getMeasureSuccesses());
 							Intent intent = new Intent(Constant.MEASURE);
+							intent.setPackage(mContext.getPackageName());
 							intent.putExtra("data", bean);
 							mContext.sendBroadcast(intent);
 						}
@@ -153,6 +165,7 @@ class BluetoothManager extends IBluetoothManager
 							ReadLabMeasureDataBean bean = DataParse.parseReadLabMeasureData(data);
 							Log.i(TAG, "readLabMeasureData===>" + bean.toString());
 							Intent intent = new Intent(Constant.READ_LAB_MEASURE_DATA);
+							intent.setPackage(mContext.getPackageName());
 							intent.putExtra("data", bean);
 							mContext.sendBroadcast(intent);
 						}
@@ -161,6 +174,7 @@ class BluetoothManager extends IBluetoothManager
 							ReadRgbMeasureDataBean bean = DataParse.parseReadRgbMeasureData(data);
 							Log.i(TAG, "readGgbMeasureData===>" + bean.toString());
 							Intent intent = new Intent(Constant.READ_RGB_MEASURE_DATA);
+							intent.setPackage(mContext.getPackageName());
 							intent.putExtra("data", bean);
 							mContext.sendBroadcast(intent);
 						}
@@ -169,6 +183,7 @@ class BluetoothManager extends IBluetoothManager
 							DeviceInfoBean.PowerInfo powerInfo = DataParse.parseDevicePowerInfo(data);
 							Log.i(TAG, "readPowerInfo===>" + powerInfo.getElectricQuantity());
 							Intent intent = new Intent(Constant.GET_DEVICE_POWER_INFO);
+							intent.setPackage(mContext.getPackageName());
 							intent.putExtra("data", powerInfo);
 							mContext.sendBroadcast(intent);
 						}
@@ -180,6 +195,7 @@ class BluetoothManager extends IBluetoothManager
 							Log.i(TAG, "blackAdjust===>" + TimeUtil.unixTimestamp2Date(blackTime));
 							Log.i(TAG, "whiteAdjust===>" + TimeUtil.unixTimestamp2Date(whiteTime));
 							Intent intent = new Intent(Constant.GET_DEVICE_ADJUST_STATE);
+							intent.setPackage(mContext.getPackageName());
 							intent.putExtra("data", adjustState);
 							mContext.sendBroadcast(intent);
 						}
@@ -191,6 +207,7 @@ class BluetoothManager extends IBluetoothManager
 							count = ByteUtil.getShort(data, 3);
 							Log.i(TAG, "getStandardCount===>" + count);
 							Intent intent = new Intent(Constant.GET_STANDARD_DATA_COUNT);
+							intent.setPackage(mContext.getPackageName());
 							intent.putExtra("standard_count", count);
 							mContext.sendBroadcast(intent);
 						}
@@ -211,8 +228,10 @@ class BluetoothManager extends IBluetoothManager
 							index = 0;
 							short standardNum = ByteUtil.getShort(data, 3);
 							Intent intent = new Intent(Constant.DELETE_STANDARD_DATA_FOR_NUM);
+							intent.setPackage(mContext.getPackageName());
 							intent.putExtra("state", data[ 5 ]);
 							intent.putExtra("standard_num", standardNum);
+							mContext.sendBroadcast(intent);
 						}
 						else if(HexUtil.formatHexString(data).startsWith("bb1605")) {
 							if(data.length == 20 && HexUtil.formatHexString(data).substring(16, 18).equals("ff")) {
@@ -232,6 +251,7 @@ class BluetoothManager extends IBluetoothManager
 								Log.i(TAG, "postDeviceData===>下载失败：仪器存储已满(Download failed: instrument storage is full)");
 							}
 							Intent intent = new Intent(Constant.POST_STANDARD_DATA);
+							intent.setPackage(mContext.getPackageName());
 							intent.putExtra("state", data[ 3 ]);
 							mContext.sendBroadcast(intent);
 						}
@@ -248,6 +268,7 @@ class BluetoothManager extends IBluetoothManager
 								Log.i(TAG, "deleteAllData===>Parsing error");
 							}
 							Intent intent = new Intent(Constant.DELETE_ALL_STANDARD_DATA);
+							intent.setPackage(mContext.getPackageName());
 							intent.putExtra("state", data[ 3 ]);
 							mContext.sendBroadcast(intent);
 						}
@@ -268,6 +289,7 @@ class BluetoothManager extends IBluetoothManager
 											initStatus();
 											DeviceInfoStruct deviceInfoStruct = DataParse.parseDeviceInfo(realByte);
 											Intent intent = new Intent(Constant.GET_DEVICE_INFO);
+											intent.setPackage(mContext.getPackageName());
 											intent.putExtra("data", deviceInfoStruct);
 											mContext.sendBroadcast(intent);
 											Log.i(TAG, "getDeviceInfo===>" + deviceInfoStruct.toString());
@@ -286,6 +308,7 @@ class BluetoothManager extends IBluetoothManager
 											StandardSampleDataBean.StandardDataBean standardDataBean = DataParse.parseGetStandardForNum(realByte);
 											Log.i(TAG, "getStandardData===>index===>" + index + "===>" + standardDataBean.toString());
 											Intent intent = new Intent(Constant.GET_STANDARD_DATA_FOR_NUM);
+											intent.setPackage(mContext.getPackageName());
 											intent.putExtra("data", standardDataBean);
 											mContext.sendBroadcast(intent);
 											if(index < count - 1) {
@@ -304,12 +327,14 @@ class BluetoothManager extends IBluetoothManager
 
 					@Override
 					public void onNotifySuccess() {
-						Log.d(TAG, "onNotifySuccess-" + Thread.currentThread().getId());
+						Log.d(TAG, "FLOW: onNotifySuccess thread=" + Thread.currentThread().getId());
+						triggerNotifySuccess();
 					}
 
 					@Override
 					public void onNotifyFailure(BleException exception) {
-						Log.d(TAG, "onNotifyFailure-" + Thread.currentThread().getId());
+						Log.d(TAG, "FLOW: onNotifyFailure thread=" + Thread.currentThread().getId() + " err=" + exception.getDescription());
+						triggerNotifyFailure(exception.getDescription());
 					}
 				}), 1000);
 	}
@@ -325,22 +350,56 @@ class BluetoothManager extends IBluetoothManager
 	 * @param data
 	 */
 	private void readNewMeasureResult(byte[] data) {
-		if(realByte.length < 200) {
-			realByte = ArrayUtils.addAll(realByte, data);
-		}
-		//来自仪器，默认展示test数据 From the instrument, the default display test data
-		if(realByte.length == 200) {
-			byte[] end = ArrayUtils.subarray(realByte, 198, 199);
-			if(HexUtil.formatHexString(realByte).startsWith("bb02") && HexUtil.formatHexString(end).equals("ff")) {
-				initStatus();
-				ReadMeasureDataBean dataBean = DataParse.parseReadMeasureData(realByte);
-				Intent intent = new Intent(Constant.READ_MEASURE_DATA);
-				intent.putExtra("data", dataBean);
-				mContext.sendBroadcast(intent);
-				Log.i(TAG, "readMeasureData===>" + dataBean.toString());
+		realByte = ArrayUtils.addAll(realByte, data);
+		String packetHex = HexUtil.formatHexString(realByte);
+		boolean hasValidPrefix = packetHex.startsWith("bb02") || packetHex.startsWith("bb04");
+		boolean hasEnoughBytesForHeader = realByte.length >= 8;
+		boolean hasPacketTail = realByte.length >= 2 && realByte[ realByte.length - 2 ] == (byte) 0xff;
+		int expectedLength = -1;
+		int waveCount = -1;
+		if(hasEnoughBytesForHeader) {
+			waveCount = ByteUtil.get8Bit(realByte[ 7 ]);
+			if(waveCount > 0) {
+				expectedLength = 8 + waveCount * 4 + 12 + 2;
 			}
 		}
+		boolean reachedExpectedLength = expectedLength > 0 && realByte.length >= expectedLength;
+		boolean reachedLegacyLength = realByte.length >= 200;
+		Log.d(TAG, "FLOW: measure buffer prefixOk=" + hasValidPrefix + " len=" + realByte.length
+				+ " waveCount=" + waveCount + " expected=" + expectedLength
+				+ " legacy200=" + reachedLegacyLength + " tail=" + hasPacketTail
+				+ " hex=" + packetHex);
 
+		if(hasValidPrefix && (reachedExpectedLength || (hasPacketTail && reachedLegacyLength))) {
+			byte[] measurePacket = realByte;
+			if(reachedExpectedLength && expectedLength < realByte.length) {
+				measurePacket = ArrayUtils.subarray(realByte, 0, expectedLength);
+			}
+			else if(!reachedExpectedLength && reachedLegacyLength) {
+				measurePacket = ArrayUtils.subarray(realByte, 0, 200);
+			}
+			initStatus();
+			ReadMeasureDataBean dataBean = DataParse.parseReadMeasureData(measurePacket);
+			Intent intent = new Intent(Constant.READ_MEASURE_DATA);
+			intent.setPackage(mContext.getPackageName());
+			intent.putExtra("data", dataBean);
+			mContext.sendBroadcast(intent);
+			Log.i(TAG, "FLOW: broadcast full READ_MEASURE_DATA len=" + measurePacket.length);
+			Log.i(TAG, "readMeasureData===>" + dataBean.toString());
+			return;
+		}
+
+		if(hasValidPrefix && hasPacketTail && !reachedExpectedLength && !reachedLegacyLength) {
+			Log.w(TAG, "FLOW: ignoring short/partial measure packet len=" + realByte.length
+					+ " expected=" + expectedLength + " waveCount=" + waveCount + " hex=" + packetHex);
+			realByte = new byte[ 0 ];
+			return;
+		}
+
+		if(realByte.length > 256 || (!hasValidPrefix && realByte.length >= 8)) {
+			Log.w(TAG, "FLOW: reset invalid measure packet len=" + realByte.length + " hex=" + packetHex);
+			realByte = new byte[ 0 ];
+		}
 	}
 
 	/**
@@ -383,6 +442,7 @@ class BluetoothManager extends IBluetoothManager
 								//todo: 如果要 retry 的話要坐在這, 要考慮 setNotify failed 的情況
 								Log.d(TAG, e.getMessage());
 								Intent intent = new Intent(Constant.ON_FAIL);
+								intent.setPackage(mContext.getPackageName());
 								intent.putExtra(Constant.ON_FAIL, order);
 								mContext.sendBroadcast(intent);
 							}
@@ -442,8 +502,9 @@ class BluetoothManager extends IBluetoothManager
 						writeChaUUid, MachineCmd.measureCmd(Constant.TYPE_MEASURE_MODE_SCI), bleWriteCallback);
 				break;
 			case Constant.READ_MEASURE_DATA: // 读取测量结果(Read the measurement results)
+				Log.d(TAG, "FLOW: sending READ_MEASURE_DATA using legacy SCI mode");
 				BleManager.getInstance().write(connectDevice, serviceUUid,
-						writeChaUUid, MachineCmd.readMeasureDataCmd(Constant.TYPE_MEASURE_MODE_SCI_NEW), bleWriteCallback);
+						writeChaUUid, MachineCmd.readMeasureDataCmd(Constant.TYPE_MEASURE_MODE_SCI), bleWriteCallback);
 				break;
 			case Constant.READ_LAB_MEASURE_DATA: // 读取Lab测量结果(GetLabMeasureResult)
 				BleManager.getInstance().write(connectDevice, serviceUUid,
@@ -510,6 +571,7 @@ class BluetoothManager extends IBluetoothManager
 						writeChaUUid, MachineCmd.getDevicePowerInfoCmd(), bleWriteCallback);
 				break;
 			case Constant.SET_DEVICE_DISPLAY_PARAM: // 设置仪器显示参数(SetDisplayParam)
+				Log.d(TAG, "FLOW: sending SET_DEVICE_DISPLAY_PARAM displayParam=" + (displayParam != null));
 				if(displayParam != null) {
 					BleManager.getInstance().write(connectDevice, serviceUUid,
 							writeChaUUid, MachineCmd.setDeviceDisplayParamCmd(displayParam), bleWriteCallback);
@@ -525,4 +587,3 @@ class BluetoothManager extends IBluetoothManager
 	}
 
 }
-

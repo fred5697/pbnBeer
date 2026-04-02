@@ -5,8 +5,7 @@ import static java.lang.Math.log10;
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 
-import android.annotation.SuppressLint;
-import android.bluetooth.BluetoothGatt;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,10 +33,36 @@ import com.pbn.beers.utils.Constant;
 import com.pbn.beers.utils.MessageDialogUtil;
 import com.pbn.beers.utils.WaitDialogUtil;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.text.DecimalFormat;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.app.AlertDialog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class PersonalColorFragment extends Fragment
 {
@@ -140,6 +165,8 @@ public class PersonalColorFragment extends Fragment
 	double hue;
 	double deg ;
 	public int flagSTV=0;
+	public String ss0="";
+	public String snCheck="";
 
 	public final ObservableField<String> m_dl_Value = new ObservableField<>("-");
 	public final ObservableField<String> m_da_Value = new ObservableField<>("-");
@@ -151,6 +178,16 @@ public class PersonalColorFragment extends Fragment
 
 	private ReadMeasureDataBean mReadMeasureDataBean;
 
+
+	@Override
+	public void onDestroyView() {
+		if (mSpectrometerBroadcast != null) {
+			mSpectrometerBroadcast.unregisterReceiver();
+			mSpectrometerBroadcast = null;
+		}
+		binding = null;
+		super.onDestroyView();
+	}
 
 	public View onCreateView(@NonNull LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
@@ -168,6 +205,52 @@ public class PersonalColorFragment extends Fragment
 						@Override
 						public void onMeasure(MeasureBean data) {
 							Log.d("PersonalColorFragment", "onReadMeasureData: " + data.toString());
+
+
+							///////////////////////////////////////////////
+							String fileContent = readFile("installBit.txt", requireContext()); // In an Activity
+							System.out.println("File Content: " + fileContent);
+
+/*
+							if (!fileContent.equals("1")) {
+								System.out.println("File Content not 1: " + fileContent);
+								showTimedMessageDialog("", "請先登錄序號!");
+							}
+							else {
+								System.out.println("File Content 236: " + fileContent);
+
+							}
+*/
+							ss0 =String.valueOf(Constant.DEVICE_NAME);
+							System.out.println("Formatted ss0: " + ss0);
+
+							String fileContentSn = readFile("snString.txt", requireContext()); // In an Activity
+							System.out.println("File Content: " + fileContentSn);
+
+							if (!fileContentSn.equals(ss0)) {
+								showTimedMessageDialog("", "請先登錄序號!");
+							}
+							else {
+								System.out.println("File Content 164: " + fileContent);
+
+							}
+
+
+							if (snCheck.equals("0")) {
+								showTimedMessageDialog("", "請先登錄序號!");
+							}
+							else {
+								System.out.println("jsonpp snCheck: " + snCheck);
+
+
+							}
+
+							new logSn().execute();
+							//new logTool().execute();
+							System.out.println("excute 170: " );
+							/////////////////////////////////////////////////////////
+
+
 
 							if (data.getMeasureSuccesses())
 
@@ -196,6 +279,8 @@ public class PersonalColorFragment extends Fragment
 								double D50a = xyz2lab01("a", D50X, D50Y, D50Z);
 								double D50b = xyz2lab01("b", D50X, D50Y, D50Z);
 								double smartK = data.getData()[27]/data.getData()[17];
+								System.out.println("smartK:"+smartK);
+
 
 								if (mBtn == "measureTargetColorp") {
 									m_Lp_Value.set(String.valueOf(D50L));
@@ -491,7 +576,7 @@ public class PersonalColorFragment extends Fragment
 										SolidK = Denx;
 										flagK =1;
 									}
-									else if (smartK<1.5 & chrome2<6 & fixFlag == 0 & flagK == 1) { //K50
+									else if (smartK<1.25 & chrome2<6 & fixFlag == 0 & flagK == 1) { //K50
 										Denx = dens(0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00, 0.00, data.getData()[0], data.getData()[1], data.getData()[2], data.getData()[3], data.getData()[4], data.getData()[5], data.getData()[6], data.getData()[7], data.getData()[8], data.getData()[9], data.getData()[10], data.getData()[11], data.getData()[12], data.getData()[13], data.getData()[14], data.getData()[15], data.getData()[16], data.getData()[17], data.getData()[18], data.getData()[19], data.getData()[20], data.getData()[21], data.getData()[22], data.getData()[23], data.getData()[24], data.getData()[25], data.getData()[26], data.getData()[27], data.getData()[28], data.getData()[29], data.getData()[30], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000);
 
 										m_DenA_Value.set(String.valueOf(Denx));
@@ -1282,6 +1367,135 @@ public class PersonalColorFragment extends Fragment
 		super.onDestroyView();
 		binding = null;
 	}*/
+public String readFile(String fileName, Context context) {
+	File file = new File(context.getFilesDir(), fileName); // Locate the file
 
+	if (!file.exists()) {
+		return "File not found!";
+	}
+
+	StringBuilder content = new StringBuilder();
+	try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+		String line;
+		while ((line = reader.readLine()) != null) {
+			content.append(line).append("\n");
+		}
+	} catch (IOException e) {
+		e.printStackTrace();
+		return "Error reading file: " + e.getMessage();
+	}
+
+	return content.toString().trim(); // Remove trailing newline
+}
+
+	private void showTimedMessageDialog(String title, String messagex) {
+		// Create the AlertDialog
+		AlertDialog dialog = new AlertDialog.Builder(requireContext()) // Use requireContext()
+				.setTitle(title)
+				.setMessage(messagex)
+				.setCancelable(false) // Prevent the user from closing the dialog manually
+				//.setPositiveButton(android.R.string.ok, (dialogInterface, i) -> dialogInterface.dismiss())
+				.create();
+
+		// Show the dialog
+		dialog.show();
+
+		// Use a Handler to dismiss the dialog after 10 seconds
+		new Handler().postDelayed(() -> {
+			if (dialog.isShowing()) {
+				dialog.dismiss();
+			}
+		}, 15000); // 10000 milliseconds = 10 seconds
+	}
+
+
+
+	private class logSn extends AsyncTask<Void, Void, String> {
+		@Override
+		protected String doInBackground(Void... voids) {
+
+			try {
+				//URL url = new URL("https://fredkuo.idv.tw/myapi/getSqlDataDeCo3.php?getCo="+mEditText2.getText());// Change this URL to your PHP script URL
+				URL url = new URL("https://fredkuo.idv.tw/myapi/logSn.php?sn=" + ss0 + "&tool=tool");// Change this URL to your PHP script URL
+				// Get the response code
+				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+				int responseCode = connection.getResponseCode();
+				System.out.println("Response Code: " + responseCode);
+				// Read the response
+				BufferedReader reader;
+				String line;
+				StringBuilder response = new StringBuilder();
+
+				if (responseCode >= 200 && responseCode < 300) {
+					// Success response
+					reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+				} else {
+					// Error response
+					reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+				}
+
+				while ((line = reader.readLine()) != null) {
+					response.append(line);
+				}
+				reader.close();
+
+// Get the JSON response as string
+				String jsonResponse = response.toString();
+				System.out.println("JSON Response: " + jsonResponse);
+
+// Optional: Parse JSON using JSONObject
+				try {
+					JSONObject jsonObject = new JSONObject(jsonResponse);
+					String message = jsonObject.getString("message"); // Assuming your PHP returns {"message": "update success"}
+					System.out.println("jsonpp 1431 Message from server: " + message);
+					if (message.equals("update success")) {
+						// Show a success message or perform any action
+						snCheck = "1"; // Set snCheck to "1" if update is successful
+						System.out.println("jsonpp 1434 Update successful!");
+					} else {
+						// Handle the case where the update was not successful
+						System.out.println("jsonpp 1437 Update failed: " + message);
+						 snCheck = "0"; // Set snCheck to "0" if update failed
+						//showTimedMessageDialog("", "請先登錄序號!");
+
+
+					}
+				} catch (JSONException e) {
+					System.out.println("jsonpp Error parsing JSON: " + e.getMessage());
+				}
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			System.out.println(" Ur in 415 CoCode:" + ss0);
+
+
+
+			return null;
+		}
+	}
+
+
+	private class logTool extends AsyncTask<Void, Void, String> {
+		@Override
+		protected String doInBackground(Void... voids) {
+
+			try {
+				//URL url = new URL("https://fredkuo.idv.tw/myapi/getSqlDataDeCo3.php?getCo="+mEditText2.getText());// Change this URL to your PHP script URL
+				URL url = new URL("https://fredkuo.idv.tw/myapi/logTool.php?sn=" + ss0);// Change this URL to your PHP script URL
+				//URL url = new URL("https://pbnapi.ddns.net/myapi/getSn.php?sn="+ss0);// Change this URL to your PHP script URL
+				System.out.println(" Ur in 814 ss0:" + ss0);
+				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+				// Get the response code
+				int responseCode = connection.getResponseCode();
+				System.out.println("Response Code 1423: " + responseCode);
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			System.out.println(" Ur in 415 CoCode:" + ss0);
+			return null;
+		}
+	}
 
 }

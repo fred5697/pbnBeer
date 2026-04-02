@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -34,7 +35,11 @@ public class SpectrometerBroadcast
 		filter.addAction(Constant.READ_MEASURE_DATA);
 		filter.addAction(Constant.READ_RGB_MEASURE_DATA);
 		mFragmentActivity = fragmentActivity;
-		mFragmentActivity.registerReceiver(mSpectrometer, filter);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+			mFragmentActivity.registerReceiver(mSpectrometer, filter, Context.RECEIVER_NOT_EXPORTED);
+		} else {
+			mFragmentActivity.registerReceiver(mSpectrometer, filter);
+		}
 	}
 	
 	/**

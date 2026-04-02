@@ -24,20 +24,25 @@
             android:layout_height="wrap_content"
             android:text="@{activityMsg}" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.9" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_bluetooth_info"
             android:layout_width="match_parent"
-            android:layout_height="646dp"
-            android:layout_margin="10dp"
+            android:layout_height="0dp"
+            android:layout_weight="2.2"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:background="#D8DCA2" />
 
-        <EditText
-            android:id="@+id/editTextTextPersonName"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Name" />
+            android:layout_height="0dp"
+            android:layout_weight="0.9" />
 
     </LinearLayout>
 </layout>
