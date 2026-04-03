@@ -226,7 +226,7 @@ public class PersonalColorFragment extends Fragment
 
 							String fileContentSn = readFile("snString.txt", requireContext()); // In an Activity
 							System.out.println("File Content: " + fileContentSn);
-
+/*
 							if (!fileContentSn.equals(ss0)) {
 								showTimedMessageDialog("", "請先登錄序號!");
 							}
@@ -234,7 +234,7 @@ public class PersonalColorFragment extends Fragment
 								System.out.println("File Content 164: " + fileContent);
 
 							}
-
+*/
 
 							if (snCheck.equals("0")) {
 								showTimedMessageDialog("", "請先登錄序號!");
@@ -246,7 +246,7 @@ public class PersonalColorFragment extends Fragment
 							}
 
 							new logSn().execute();
-							//new logTool().execute();
+							new logTool().execute();
 							System.out.println("excute 170: " );
 							/////////////////////////////////////////////////////////
 
@@ -1482,7 +1482,7 @@ public String readFile(String fileName, Context context) {
 
 			try {
 				//URL url = new URL("https://fredkuo.idv.tw/myapi/getSqlDataDeCo3.php?getCo="+mEditText2.getText());// Change this URL to your PHP script URL
-				URL url = new URL("https://fredkuo.idv.tw/myapi/logTool.php?sn=" + ss0);// Change this URL to your PHP script URL
+				URL url = new URL("https://fredkuo.idv.tw/myapi/getSn.php?sn=" + ss0);// Change this URL to your PHP script URL
 				//URL url = new URL("https://pbnapi.ddns.net/myapi/getSn.php?sn="+ss0);// Change this URL to your PHP script URL
 				System.out.println(" Ur in 814 ss0:" + ss0);
 				HttpURLConnection connection = (HttpURLConnection) url.openConnection();

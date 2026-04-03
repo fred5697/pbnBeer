@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- app, nav -->
+    <string name="app_name">pbnTool</string>
+    <string name="title_home">浓度计</string>
+    <string name="title_personal_color">樣本量測</string>
+    <string name="title_member_center">设置</string>
+
+    <!-- btn common -->
+    <string name="btn_i_know">我知道了</string>
+    <string name="btn_cancel">取消</string>
+
+    <!-- msgBox common -->
+    <string name="msg_box_title">消息</string>
+
+    <!-- Pair spectrometer flow -->
+    <string name="pair_device">配对仪器</string>
+    <string name="search_device">搜索设备</string>
+    <string name="connect_success">已连接</string>
+    <string name="connect">连接中</string>
+    <string name="adjust_device">校准仪器</string>
+    <string name="adjust_device_title">校准仪器</string>
+
+    <!-- Calibration flow -->
+    <string name="adjust_setting">仪器初始化中，请稍候…</string>
+    <string name="white_adjust">白色校准</string>
+    <string name="white_adjust_tip">请盖上仪器盖，然后点击校准。</string>
+    <string name="adjust_btn_name">校准</string>
+    <string name="black_adjust">黑色校准</string>
+    <string name="black_adjust_tip">请移除仪器盖，向下量测，保持距地面约一米，然后点击校准。</string>
+    <string name="adjusting_wait">校准中，请稍候…</string>
+    <string name="adjust_fail">校准失败，请在使用前重新校准！</string>
+
+    <!-- Measurement -->
+    <string name="measure_fail">量测失败，请重新量测。</string>
+
+    <!-- MemberCenterFragment – Language Selection -->
+    <string name="member_btn_language">语言设置</string>
+    <string name="member_language_title">选择语言</string>
+
+    <!-- PersonalColorFragment – row labels -->
+    <string name="pc_paper">纸张</string>
+    <string name="pc_density">浓度</string>
+    <string name="pc_target">目标</string>
+    <string name="pc_plate_tone">版调</string>
+    <string name="pc_sample">样本</string>
+    <string name="pc_meas_density">量测浓度</string>
+    <string name="pc_best_density">最佳浓度</string>
+    <string name="pc_dl_label">亮度差</string>
+    <string name="pc_da_label">a差</string>
+    <string name="pc_db_label">b差</string>
+    <string name="pc_dgray_label">灰差</string>
+    <string name="pc_gray_balance">灰平衡</string>
+    <string name="pc_operation">操作</string>
+
+    <!-- PersonalColorFragment – buttons -->
+    <string name="pc_btn_lock_target">锁定目标</string>
+    <string name="pc_btn_measure_paper">量测纸张</string>
+    <string name="pc_btn_measure_sample">样本量测</string>
+</resources>
+

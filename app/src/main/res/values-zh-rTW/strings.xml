@@ -1,8 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- app, nav -->
     <string name="app_name">pbnTool</string>
     <string name="title_home">濃度計</string>
-    <string name="title_personal_color">個人顏色</string>
+    <string name="title_personal_color">樣本量測</string>
     <string name="title_member_center">設定</string>
 
     <!-- btn common -->
@@ -57,3 +58,4 @@
     <string name="pc_btn_measure_paper">量測紙張</string>
     <string name="pc_btn_measure_sample">樣本量測</string>
 </resources>
+

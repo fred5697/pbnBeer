@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- app, nav -->
+    <string name="app_name">pbnTool</string>
+    <string name="title_home">Densitometer</string>
+    <string name="title_personal_color">Measuring</string>
+    <string name="title_member_center">Settings</string>
+
+    <!-- btn common -->
+    <string name="btn_i_know">OK</string>
+    <string name="btn_cancel">Cancel</string>
+
+    <!-- msgBox common -->
+    <string name="msg_box_title">Message</string>
+
+    <!-- Pair spectrometer flow -->
+    <string name="pair_device">Pair Spectrometer</string>
+    <string name="search_device">Search Device</string>
+    <string name="connect_success">Connected</string>
+    <string name="connect">Connecting</string>
+    <string name="adjust_device">Calibrate Spectrometer</string>
+    <string name="adjust_device_title">Calibrate Spectrometer</string>
+
+    <!-- Calibration flow -->
+    <string name="adjust_setting">Device initializing, please wait…</string>
+    <string name="white_adjust">White Calibration</string>
+    <string name="white_adjust_tip">Please close the spectrometer cap, then tap Calibrate.</string>
+    <string name="adjust_btn_name">Calibrate</string>
+    <string name="black_adjust">Black Calibration</string>
+    <string name="black_adjust_tip">Please remove the cap, point downward, keep about 1 metre from the ground, then tap Calibrate.</string>
+    <string name="adjusting_wait">Calibrating, please wait…</string>
+    <string name="adjust_fail">Calibration failed. Please calibrate again before use!</string>
+
+    <!-- Measurement -->
+    <string name="measure_fail">Measurement failed. Please measure again.</string>
+
+    <!-- MemberCenterFragment – Language Selection -->
+    <string name="member_btn_language">Language</string>
+    <string name="member_language_title">Select Language</string>
+
+    <!-- PersonalColorFragment – row labels -->
+    <string name="pc_paper">Paper</string>
+    <string name="pc_density">Dens</string>
+    <string name="pc_target">Target</string>
+    <string name="pc_plate_tone">TV</string>
+    <string name="pc_sample">Sample</string>
+    <string name="pc_meas_density">Meas. D</string>
+    <string name="pc_best_density">Best D</string>
+    <string name="pc_dl_label">ΔL</string>
+    <string name="pc_da_label">Δa</string>
+    <string name="pc_db_label">Δb</string>
+    <string name="pc_dgray_label">ΔGray</string>
+    <string name="pc_gray_balance">Gray </string>
+    <string name="pc_operation">Operation</string>
+
+    <!-- PersonalColorFragment – buttons -->
+    <string name="pc_btn_lock_target">Lock</string>
+    <string name="pc_btn_measure_paper"> Paper</string>
+    <string name="pc_btn_measure_sample"> Sample</string>
+</resources>
+

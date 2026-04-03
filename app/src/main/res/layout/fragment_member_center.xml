@@ -15,28 +15,54 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <!-- top spacer -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
-        <Button
-            android:id="@+id/btn_pair_device"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="80dp"
-            android:layout_marginEnd="10dp"
+            android:layout_gravity="center"
             android:gravity="center"
-            android:onClick="@{() -> fragment.toBleSearchActivity()}"
-            android:text="@string/pair_device" />
+            android:orientation="vertical"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp">
 
-        <Button
-            android:id="@+id/btn_device_adjust"
+            <Button
+                android:id="@+id/btn_pair_device"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:gravity="center"
+                android:onClick="@{() -> fragment.toBleSearchActivity()}"
+                android:text="@string/pair_device" />
+
+            <Button
+                android:id="@+id/btn_device_adjust"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:gravity="center"
+                android:onClick="@{() -> fragment.toBleDeviceAdjust()}"
+                android:text="@string/adjust_device" />
+
+            <Button
+                android:id="@+id/btn_language_select"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:onClick="@{() -> fragment.showLanguageSelector()}"
+                android:text="@string/member_btn_language" />
+
+        </LinearLayout>
+
+        <!-- bottom spacer -->
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:gravity="center"
-            android:onClick="@{() -> fragment.toBleDeviceAdjust()}"
-            android:text="@string/adjust_device" />
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
     </LinearLayout>
 </layout>

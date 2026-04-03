@@ -299,6 +299,11 @@ public class BleDeviceSearch extends AppCompatActivity
 				return;
 			}
 
+			// Store the selected device name so PersonalColorFragment can read it
+			Constant.DEVICE_NAME = bluetoothBean.getName();
+			ss0 = String.valueOf(Constant.DEVICE_NAME);
+			Log.d("BleDeviceSearch", "Selected device name: " + ss0);
+
 			WaitDialogUtil.show(this, "Connecting...");
 			BleManager.getInstance().connect(bleDevice, new BleGattCallback() {
 				@Override
