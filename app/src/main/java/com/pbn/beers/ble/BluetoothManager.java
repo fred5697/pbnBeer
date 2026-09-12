@@ -56,6 +56,8 @@ public class BluetoothManager extends IBluetoothManager
 
 	private String order = null;
 	private byte[] realByte = null;
+	/** status replies from the instrument are 10 bytes, e.g. bb01000001900a1fff75 */
+	private static final int SHORT_REPLY_LENGTH = 10;
 	private final Handler myHandle;
 
 	public BluetoothManager() {
@@ -389,7 +391,11 @@ public class BluetoothManager extends IBluetoothManager
 			return;
 		}
 
-		if(hasValidPrefix && hasPacketTail && !reachedExpectedLength && !reachedLegacyLength) {
+		// 0xff turns up constantly inside the spectrum floats, so the tail byte only means "end of
+		// packet" on a buffer short enough to be a status reply. Trusting it on a data chunk threw
+		// away the header and orphaned every following chunk, so the read never completed.
+		if(hasValidPrefix && hasPacketTail && realByte.length <= SHORT_REPLY_LENGTH
+				&& !reachedExpectedLength && !reachedLegacyLength) {
 			Log.w(TAG, "FLOW: ignoring short/partial measure packet len=" + realByte.length
 					+ " expected=" + expectedLength + " waveCount=" + waveCount + " hex=" + packetHex);
 			realByte = new byte[ 0 ];
